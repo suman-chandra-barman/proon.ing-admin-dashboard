@@ -36,37 +36,39 @@
     font-size: 16px;
   }
 
-  --background: oklch(1 0 0);
+  --background: #0f1117;
 
-  --foreground: oklch(0.145 0 0);
+  --foreground: #e5e7eb;
 
-  --card: oklch(1 0 0);
+  --card: #1a1d29;
 
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: #e5e7eb;
 
-  --popover: oklch(1 0 0);
+  --popover: #1a1d29;
 
-  --popover-foreground: oklch(0.145 0 0);
+  --popover-foreground: #e5e7eb;
 
-  --primary: oklch(0.205 0 0);
+  --primary: #8b5cf6;
 
-  --primary-foreground: oklch(0.985 0 0);
+  --primary-foreground: #ffffff;
 
-  --secondary: oklch(0.97 0 0);
+  --secondary: #1e2130;
 
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-foreground: #e5e7eb;
 
-  --muted: oklch(0.97 0 0);
+  --muted: #1e2130;
 
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: #9ca3af;
 
-  --accent-foreground: oklch(0.205 0 0);
+  --accent: #1e2130;
 
-  --destructive: oklch(0.577 0.245 27.325);
+  --accent-foreground: #e5e7eb;
 
-  --input: oklch(0.922 0 0);
+  --destructive: #ef4444;
 
-  --ring: oklch(0.708 0 0);
+  --input: #1e2130;
+
+  --ring: #8b5cf6;
 
   --chart-1: oklch(0.87 0 0);
 
@@ -80,21 +82,23 @@
 
   --radius: 0.625rem;
 
-  --sidebar: oklch(0.985 0 0);
+  --border: #2e3142;
 
-  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar: #1a1d29;
 
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-foreground: #e5e7eb;
 
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: #8b5cf6;
 
-  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-primary-foreground: #ffffff;
 
-  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-accent: #1e2130;
 
-  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-accent-foreground: #e5e7eb;
 
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-border: #2e3142;
+
+  --sidebar-ring: #8b5cf6;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -208,4 +212,23 @@ body {
   html {
     @apply font-sans;
   }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1d29;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2e3142;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3d4158;
 }
