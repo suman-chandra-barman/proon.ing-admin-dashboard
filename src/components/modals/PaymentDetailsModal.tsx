@@ -25,7 +25,6 @@ interface PaymentDetailsModalProps {
 
 export default function PaymentDetailsModal({
   subscription,
-  onClose,
 }: PaymentDetailsModalProps) {
   return (
     <DialogContent className="sm:max-w-md">
