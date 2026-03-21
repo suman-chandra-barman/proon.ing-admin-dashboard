@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FaUserCircle, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { FaUserCircle, FaSignOutAlt, FaLock } from "react-icons/fa";
 
 export default function ProfileDropdown() {
   return (
@@ -43,11 +43,11 @@ export default function ProfileDropdown() {
         <div className="py-1">
           <DropdownMenuItem className="cursor-pointer px-3 py-2.5  hover:bg-[#84cff12e]! hover:text-[#4DC8FF]!">
             <FaUserCircle className="mr-3 h-4 w-4 text-muted-foreground" />
-            <span className="text-sm">Profile</span>
+            <span className="text-sm">Edit Profile</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer px-3 py-2.5 hover:bg-[#84cff12e]! hover:text-[#4DC8FF]!">
-            <FaCog className="mr-3 h-4 w-4 text-muted-foreground" />
-            <span className="text-sm">Settings</span>
+            <FaLock className="mr-3 h-4 w-4 text-muted-foreground" />
+            <span className="text-sm">Change Password</span>
           </DropdownMenuItem>
         </div>
 
