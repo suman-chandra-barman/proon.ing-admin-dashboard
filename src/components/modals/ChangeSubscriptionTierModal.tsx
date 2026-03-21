@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   DialogContent,
   DialogHeader,
@@ -13,17 +14,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 
 interface AIModel {
   id: number;
   name: string;
+  provider: string;
   description: string;
-  features: string[];
-  status: string;
-  price: string;
-  scansPerMonth: number;
+  status: "Active" | "Degraded" | "Inactive";
+  requestsToday: string;
+  avgLatency: string;
+  usage: number;
+  subscriptionTier: string;
+  icon: React.ReactElement;
+  iconBg: string;
+  gradientFrom: string;
+  gradientTo: string;
 }
 
 interface ChangeSubscriptionTierModalProps {
