@@ -12,8 +12,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import NotificationModal from "@/components/modals/NotificationModal";
 import { Dialog } from "@/components/ui/dialog";
+import NotificationModal from "../modals/NotificationModal";
 
 export default function Header() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -25,10 +25,10 @@ export default function Header() {
           {/* Notification Icon */}
           <button
             onClick={() => setIsNotificationOpen(true)}
-            className="relative rounded-full p-2 hover:bg-accent"
+            className="relative rounded-full p-1 hover:bg-accent"
           >
-            <IoNotifications className="h-6 w-6 text-muted-foreground" />
-            <Badge className="absolute -right-1 -top-1 h-5 w-5 rounded-full p-0 text-xs flex items-center justify-center">
+            <IoNotifications className="h-4 w-4 text-muted-foreground" />
+            <Badge className="absolute -right-1 -top-1 h-4 w-4 rounded-full p-0 text-xs flex items-center justify-center">
               3
             </Badge>
           </button>
@@ -42,7 +42,7 @@ export default function Header() {
               >
                 <Avatar>
                   <AvatarImage src="/avatar.png" alt="Admin" />
-                  <AvatarFallback>AD</AvatarFallback>
+                  <AvatarFallback className="bg-gray-500 text-white">AD</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>

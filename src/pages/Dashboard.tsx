@@ -32,14 +32,14 @@ const statsCards = [
     trendPositive: true,
   },
   {
-    title: "Revenue",
+    title: "Total Scans",
     value: "$45,231",
     icon: FaDollarSign,
     trend: "+23.1%",
     trendPositive: true,
   },
   {
-    title: "Scans Today",
+    title: "Subscriptions",
     value: "1,234",
     icon: MdOutlineQrCodeScanner,
     trend: "-2.4%",
@@ -48,23 +48,23 @@ const statsCards = [
 ];
 
 const activityData = [
-  { name: "Jan", users: 400, scans: 240 },
-  { name: "Feb", users: 300, scans: 139 },
-  { name: "Mar", users: 200, scans: 980 },
-  { name: "Apr", users: 278, scans: 390 },
-  { name: "May", users: 189, scans: 480 },
-  { name: "Jun", users: 239, scans: 380 },
-  { name: "Jul", users: 349, scans: 430 },
+  { name: "Mon", users: 400, scans: 240 },
+  { name: "Tue", users: 300, scans: 139 },
+  { name: "Wed", users: 200, scans: 980 },
+  { name: "Thu", users: 278, scans: 390 },
+  { name: "Fri", users: 189, scans: 480 },
+  { name: "Sat", users: 239, scans: 380 },
+  { name: "Sun", users: 349, scans: 430 },
 ];
 
 const scansData = [
-  { name: "Mon", scans: 65 },
-  { name: "Tue", scans: 85 },
-  { name: "Wed", scans: 75 },
-  { name: "Thu", scans: 90 },
-  { name: "Fri", scans: 80 },
-  { name: "Sat", scans: 45 },
-  { name: "Sun", scans: 40 },
+  { name: "6am", scans: 65 },
+  { name: "9am", scans: 85 },
+  { name: "12pm", scans: 75 },
+  { name: "3pm", scans: 90 },
+  { name: "6pm", scans: 80 },
+  { name: "9pm", scans: 45 },
+  { name: "12pm", scans: 40 },
 ];
 
 const recentUsers = [
@@ -188,27 +188,6 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Scans Today */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Scans Today</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={scansData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="scans" fill="#8b5cf6" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recent Users and Activity */}
-      <div className="grid gap-6 lg:grid-cols-2">
         {/* Recent Users */}
         <Card>
           <CardHeader>
@@ -242,6 +221,27 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Recent Users and Activity */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Scans Today */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Scans Today</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={scansData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="scans" fill="#8b5cf6" radius={[8, 8, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
 

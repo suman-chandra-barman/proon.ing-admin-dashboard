@@ -6,6 +6,8 @@ import { RiRobot2Fill } from "react-icons/ri";
 import { MdSubscriptions } from "react-icons/md";
 import { IoAnalytics } from "react-icons/io5";
 import logo from "@/assets/logo.svg";
+import { Button } from "../ui/button";
+import { LogOut } from "lucide-react";
 
 const navItems = [
   {
@@ -43,7 +45,15 @@ export default function Sidebar() {
       <div className="flex h-full flex-col">
         {/* Logo */}
         <div className="flex h-16 items-center border-b border-sidebar-border px-6">
-          <img src={logo} alt="Proon Logo" className="h-8" />
+          <Link to="/">
+            <img src={logo} alt="Proon Logo" className="h-8" />
+          </Link>
+          <span className="ml-2 text-sm font-semibold bg-linear-to-r from-[#4DC8FF] via-[#9C27B0] to-[#FF40E0] bg-clip-text text-transparent">
+            proon.ing
+          </span>
+          <span className="ml-2 text-[10px] font-semibold rounded px-2 bg-gray-800">
+            ADMIN
+          </span>
         </div>
 
         {/* Navigation */}
@@ -59,8 +69,8 @@ export default function Sidebar() {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all",
                   isActive
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                    ? "bg-[#4DC8FF2E] text-[#4DC8FF] shadow-sm"
+                    : "text-muted-foreground hover:bg-[#84cff12e] hover:text-[#4DC8FF]",
                 )}
               >
                 <Icon className="h-5 w-5" />
@@ -69,6 +79,11 @@ export default function Sidebar() {
             );
           })}
         </nav>
+
+        <Button variant="outline" className="m-4">
+          <LogOut className="h-4 w-4" />
+          <span className="ml-2">Sign Out</span>
+        </Button>
       </div>
     </aside>
   );
