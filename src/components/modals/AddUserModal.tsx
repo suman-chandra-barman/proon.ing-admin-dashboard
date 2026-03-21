@@ -66,7 +66,8 @@ export default function AddUserModal({ onClose }: AddUserModalProps) {
               required
             />
           </div>
-          <div className="space-y-2">
+        <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-2">
             <Label htmlFor="plan">Plan</Label>
             <Select
               value={formData.plan}
@@ -74,7 +75,7 @@ export default function AddUserModal({ onClose }: AddUserModalProps) {
                 setFormData({ ...formData, plan: value })
               }
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select plan" />
               </SelectTrigger>
               <SelectContent>
@@ -92,7 +93,7 @@ export default function AddUserModal({ onClose }: AddUserModalProps) {
                 setFormData({ ...formData, status: value })
               }
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -101,6 +102,7 @@ export default function AddUserModal({ onClose }: AddUserModalProps) {
               </SelectContent>
             </Select>
           </div>
+        </div>
         </div>
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
