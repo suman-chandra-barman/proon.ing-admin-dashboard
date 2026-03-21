@@ -54,7 +54,7 @@ export default function NotificationDropdown() {
           {notifications.map((notification) => (
             <div
               key={notification.id}
-              className="flex items-start gap-3 px-4 py-3 hover:bg-accent cursor-pointer transition-colors"
+              className="flex items-start gap-3 px-4 py-3 hover:bg-[#84cff12e] cursor-pointer transition-colors"
             >
               <Avatar className="h-10 w-10">
                 <AvatarImage src={notification.avatar} />
