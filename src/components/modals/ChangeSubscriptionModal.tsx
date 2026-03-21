@@ -78,7 +78,7 @@ export default function ChangeSubscriptionModal({
           <div className="space-y-2">
             <Label>New Plan</Label>
             <Select value={newPlan} onValueChange={setNewPlan}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -92,7 +92,7 @@ export default function ChangeSubscriptionModal({
           <div className="space-y-2">
             <Label>Billing Period</Label>
             <Select value={billingPeriod} onValueChange={setBillingPeriod}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
