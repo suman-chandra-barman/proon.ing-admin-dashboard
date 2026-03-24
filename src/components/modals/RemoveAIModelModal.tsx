@@ -26,16 +26,17 @@ interface AIModel {
 
 interface RemoveAIModelModalProps {
   model: AIModel;
+  onConfirm: () => void;
   onClose: () => void;
 }
 
 export default function RemoveAIModelModal({
   model,
+  onConfirm,
   onClose,
 }: RemoveAIModelModalProps) {
   const handleRemove = () => {
-    console.log("Removing model:", model.id);
-    onClose();
+    onConfirm();
   };
 
   return (

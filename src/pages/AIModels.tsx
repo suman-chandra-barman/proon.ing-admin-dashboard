@@ -1,24 +1,22 @@
 import React, { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
-import { FaTrash } from "react-icons/fa";
 import { SiOpenai, SiGoogle } from "react-icons/si";
 import { RiRobot2Fill } from "react-icons/ri";
 import RemoveAIModelModal from "@/components/modals/RemoveAIModelModal";
 import ChangeSubscriptionTierModal from "@/components/modals/ChangeSubscriptionTierModal";
+import AddAIModelModal from "@/components/modals/AddAIModelModal";
+import type { AddAIModelFormData } from "@/components/modals/AddAIModelModal";
+import AIModelCard from "@/components/cards/AIModelCard";
 
 interface AIModel {
   id: number;
   name: string;
   provider: string;
+  modelType: "Chat" | "Object Identification";
   description: string;
+  apiKey: string;
   status: "Active" | "Degraded" | "Inactive";
   requestsToday: string;
   avgLatency: string;
@@ -30,13 +28,15 @@ interface AIModel {
   gradientTo: string;
 }
 
-const aiModels: AIModel[] = [
+const initialModels: AIModel[] = [
   {
     id: 1,
     name: "GPT-4 Turbo",
     provider: "OpenAI",
+    modelType: "Chat",
     description:
       "Most capable GPT-4 model, optimized for chat and traditional completions tasks",
+    apiKey: "",
     status: "Active",
     requestsToday: "14,230",
     avgLatency: "1.2s",
@@ -51,8 +51,10 @@ const aiModels: AIModel[] = [
     id: 2,
     name: "Claude 3 Opus",
     provider: "Anthropic",
+    modelType: "Chat",
     description:
       "Most powerful model for highly complex tasks with extended context window",
+    apiKey: "",
     status: "Active",
     requestsToday: "8,940",
     avgLatency: "1.8s",
@@ -67,8 +69,10 @@ const aiModels: AIModel[] = [
     id: 3,
     name: "Gemini Ultra",
     provider: "Google",
+    modelType: "Object Identification",
     description:
       "Google's most capable AI model for highly complex tasks and multimodal reasoning",
+    apiKey: "",
     status: "Active",
     requestsToday: "19,820",
     avgLatency: "0.9s",
@@ -82,36 +86,120 @@ const aiModels: AIModel[] = [
 ];
 
 export default function AIModels() {
+  const [models, setModels] = useState<AIModel[]>(initialModels);
+  const [isAddModelOpen, setIsAddModelOpen] = useState(false);
   const [isChangeTierOpen, setIsChangeTierOpen] = useState(false);
   const [isRemoveModelOpen, setIsRemoveModelOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState<AIModel | null>(null);
+  const [activeTab, setActiveTab] = useState<
+    "All Models" | "Chat Models" | "Object Detection Models"
+  >("All Models");
 
-  const activeCount = aiModels.filter((m) => m.status === "Active").length;
-  const degradedCount = aiModels.filter((m) => m.status === "Degraded").length;
+  const getProviderVisuals = (provider: string) => {
+    const normalized = provider.toLowerCase();
 
-  const handleUpgrade = (model: AIModel) => {
+    if (normalized.includes("openai")) {
+      return {
+        icon: <SiOpenai className="h-6 w-6" />,
+        iconBg: "bg-emerald-500/10",
+        gradientFrom: "from-blue-500",
+        gradientTo: "to-pink-500",
+      };
+    }
+
+    if (normalized.includes("google") || normalized.includes("gemini")) {
+      return {
+        icon: <SiGoogle className="h-6 w-6" />,
+        iconBg: "bg-blue-500/10",
+        gradientFrom: "from-orange-500",
+        gradientTo: "to-red-500",
+      };
+    }
+
+    return {
+      icon: <RiRobot2Fill className="h-6 w-6" />,
+      iconBg: "bg-orange-500/10",
+      gradientFrom: "from-cyan-500",
+      gradientTo: "to-indigo-500",
+    };
+  };
+
+  const activeCount = models.filter((m) => m.status === "Active").length;
+  const degradedCount = models.filter((m) => m.status === "Degraded").length;
+  const objectModels = models.filter(
+    (m) => m.modelType === "Object Identification",
+  );
+
+  const filteredModels =
+    activeTab === "All Models"
+      ? models
+      : activeTab === "Chat Models"
+        ? models.filter((m) => m.modelType === "Chat")
+        : objectModels;
+
+  const handleUpgrade = (modelId: number) => {
+    const model = models.find((item) => item.id === modelId);
+    if (!model) return;
+
     setSelectedModel(model);
     setIsChangeTierOpen(true);
   };
 
-  const handleRemove = (model: AIModel) => {
+  const handleRemove = (modelId: number) => {
+    const model = models.find((item) => item.id === modelId);
+    if (!model) return;
+
     setSelectedModel(model);
     setIsRemoveModelOpen(true);
   };
 
+  const handleConfirmRemove = () => {
+    if (!selectedModel) return;
+
+    setModels((current) =>
+      current.filter((model) => model.id !== selectedModel.id),
+    );
+    setIsRemoveModelOpen(false);
+    setSelectedModel(null);
+  };
+
+  const handleAddModel = (formData: AddAIModelFormData) => {
+    const modelVisuals = getProviderVisuals(formData.provider);
+    const nextId =
+      models.length > 0 ? Math.max(...models.map((model) => model.id)) + 1 : 1;
+
+    const newModel: AIModel = {
+      id: nextId,
+      name: formData.name,
+      provider: formData.provider,
+      modelType: formData.modelType,
+      description: formData.description,
+      apiKey: formData.apiKey,
+      status: formData.status,
+      requestsToday: "0",
+      avgLatency: "-",
+      usage: 0,
+      subscriptionTier: formData.subscriptionTier,
+      ...modelVisuals,
+    };
+
+    setModels((current) => [newModel, ...current]);
+    setIsAddModelOpen(false);
+  };
+
   return (
     <div className="space-y-6">
-      {/* Header Section */}
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">
             AI Model Management
           </h1>
           <p className="text-muted-foreground mt-1">
-            {aiModels.length} integrated models
+            {models.length} integrated models
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
+          <Button onClick={() => setIsAddModelOpen(true)}>Add Model</Button>
           {activeCount > 0 && (
             <Badge className="bg-green-500/10 text-green-500 hover:bg-green-500/20 border-green-500/20">
               {activeCount} Active
@@ -125,131 +213,53 @@ export default function AIModels() {
         </div>
       </div>
 
-      {/* AI Model Cards */}
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {aiModels.map((model) => (
-          <Card
-            key={model.id}
-            className="flex flex-col bg-card border-border hover:border-primary/50 transition-colors"
+      <div className="flex items-center gap-2 rounded-xl border border-border bg-card p-1 w-fit">
+        {(
+          ["All Models", "Chat Models", "Object Detection Models"] as const
+        ).map((tab) => (
+          <Button
+            key={tab}
+            type="button"
+            variant={activeTab === tab ? "default" : "ghost"}
+            className="rounded-lg"
+            onClick={() => setActiveTab(tab)}
           >
-            <CardHeader className="pb-4">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-start gap-3 flex-1">
-                  <div
-                    className={`rounded-lg ${model.iconBg} p-3 text-primary flex-shrink-0`}
-                  >
-                    {model.icon}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-lg text-foreground">
-                      {model.name}
-                    </h3>
-                    <p className="text-xs text-muted-foreground">
-                      {model.provider}
-                    </p>
-                  </div>
-                </div>
-                <Badge
-                  variant={model.status === "Active" ? "default" : "secondary"}
-                  className={
-                    model.status === "Active"
-                      ? "bg-green-500/10 text-green-500 hover:bg-green-500/20 border-green-500/20"
-                      : model.status === "Degraded"
-                        ? "bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 border-yellow-500/20"
-                        : "bg-gray-500/10 text-gray-500"
-                  }
-                >
-                  {model.status}
-                </Badge>
-              </div>
-            </CardHeader>
-
-            <CardContent className="flex-1 space-y-4">
-              <p className="text-sm text-muted-foreground line-clamp-2">
-                {model.description}
-              </p>
-
-              {/* Metrics */}
-              <div className="grid grid-cols-3 gap-3">
-                <div className="text-center bg-gray-700 p-2 rounded-xl">
-                  <p className="text-xs text-muted-foreground">Req/Today</p>
-                  <p className="text-base font-semibold text-foreground mt-1">
-                    {model.requestsToday}
-                  </p>
-                </div>
-                <div className="text-center bg-gray-700 p-2 rounded-xl">
-                  <p className="text-xs text-muted-foreground">Avg Latency</p>
-                  <p className="text-base font-semibold text-foreground mt-1">
-                    {model.avgLatency}
-                  </p>
-                </div>
-                <div className="text-center bg-gray-700 p-2 rounded-xl">
-                  <p className="text-xs text-muted-foreground">Usage</p>
-                  <p className="text-base font-semibold text-foreground mt-1">
-                    {model.usage}%
-                  </p>
-                </div>
-              </div>
-
-              {/* Usage Bar */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Usage</span>
-                  <span className="text-xs text-muted-foreground ml-2">
-                    {model.usage}%
-                  </span>
-                </div>
-                <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                  <div
-                    className={`h-full bg-gradient-to-r ${model.gradientFrom} ${model.gradientTo} rounded-full transition-all duration-500`}
-                    style={{ width: `${model.usage}%` }}
-                  />
-                </div>
-              </div>
-
-              {/* Subscription Tier */}
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-muted-foreground">Current Subscription</span>
-                <Badge
-                  variant="outline"
-                  className="bg-primary/5 text-primary border-primary/20"
-                >
-                  {model.subscriptionTier}
-                </Badge>
-              </div>
-            </CardContent>
-
-            <CardFooter className="flex gap-2 pt-4">
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1 text-[#4DC8FF] bg-[#4DC8FF1A] hover:bg-[#4DC8FF33] rounded-2xl  py-4"
-                onClick={() => handleUpgrade(model)}
-              >
-                Upgrade
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1 text-[#FFB300] bg-[#FFB30014] hover:bg-[#FFB3001A] rounded-2xl py-4"
-                onClick={() => handleUpgrade(model)}
-              >
-                Downgrade
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9 "
-                onClick={() => handleRemove(model)}
-              >
-                <FaTrash className="h-4 w-4 text-destructive" />
-              </Button>
-            </CardFooter>
-          </Card>
+            {tab}
+          </Button>
         ))}
       </div>
 
-      {/* Modals */}
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold text-foreground">{activeTab}</h2>
+        <Badge variant="outline" className="text-xs">
+          {filteredModels.length} models
+        </Badge>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {filteredModels.map((model) => (
+          <AIModelCard
+            key={model.id}
+            model={model}
+            onUpgrade={handleUpgrade}
+            onRemove={handleRemove}
+          />
+        ))}
+      </div>
+
+      {filteredModels.length === 0 && (
+        <div className="rounded-xl border border-dashed border-border p-8 text-center text-muted-foreground">
+          No models found for this category.
+        </div>
+      )}
+
+      {/* Modals:---- add ai model, change subscription tier, remove ai model */}
+      <Dialog open={isAddModelOpen} onOpenChange={setIsAddModelOpen}>
+        <AddAIModelModal
+          onAdd={handleAddModel}
+          onClose={() => setIsAddModelOpen(false)}
+        />
+      </Dialog>
       <Dialog open={isChangeTierOpen} onOpenChange={setIsChangeTierOpen}>
         {selectedModel && (
           <ChangeSubscriptionTierModal
@@ -258,11 +268,11 @@ export default function AIModels() {
           />
         )}
       </Dialog>
-
       <Dialog open={isRemoveModelOpen} onOpenChange={setIsRemoveModelOpen}>
         {selectedModel && (
           <RemoveAIModelModal
             model={selectedModel}
+            onConfirm={handleConfirmRemove}
             onClose={() => setIsRemoveModelOpen(false)}
           />
         )}
