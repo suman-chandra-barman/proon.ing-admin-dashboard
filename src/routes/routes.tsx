@@ -4,7 +4,6 @@ import Dashboard from "@/pages/Dashboard";
 import UserManagement from "@/pages/UserManagement";
 import AIModels from "@/pages/AIModels";
 import Subscriptions from "@/pages/Subscriptions";
-import Analytics from "@/pages/Analytics";
 
 const router = createBrowserRouter([
   {
@@ -27,10 +26,10 @@ const router = createBrowserRouter([
         path: "subscriptions",
         element: <Subscriptions />,
       },
-      {
-        path: "analytics",
-        element: <Analytics />,
-      },
+      // {
+      //   path: "analytics",
+      //   element: <Analytics />,
+      // },
     ],
   },
 ]);

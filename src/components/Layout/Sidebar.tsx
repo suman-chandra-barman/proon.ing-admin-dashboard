@@ -4,7 +4,6 @@ import { MdDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { RiRobot2Fill } from "react-icons/ri";
 import { MdSubscriptions } from "react-icons/md";
-import { IoAnalytics } from "react-icons/io5";
 import logo from "@/assets/logo.svg";
 import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
@@ -30,11 +29,11 @@ const navItems = [
     href: "/subscriptions",
     icon: MdSubscriptions,
   },
-  {
-    title: "Analytics",
-    href: "/analytics",
-    icon: IoAnalytics,
-  },
+  // {
+  //   title: "Analytics",
+  //   href: "/analytics",
+  //   icon: IoAnalytics,
+  // },
 ];
 
 export default function Sidebar() {
