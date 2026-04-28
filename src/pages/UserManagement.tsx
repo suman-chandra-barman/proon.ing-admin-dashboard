@@ -9,13 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog } from "@/components/ui/dialog";
@@ -82,11 +75,9 @@ const mockUsers: User[] = [
     scansLimit: 10,
   },
 ];
-
+ 
 export default function UserManagement() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [planFilter, setPlanFilter] = useState("all");
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const [isDeleteUserOpen, setIsDeleteUserOpen] = useState(false);
@@ -106,11 +97,7 @@ export default function UserManagement() {
     const matchesSearch =
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus =
-      statusFilter === "all" || user.status.toLowerCase() === statusFilter;
-    const matchesPlan =
-      planFilter === "all" || user.plan.toLowerCase() === planFilter;
-    return matchesSearch && matchesStatus && matchesPlan;
+    return matchesSearch;
   });
 
   return (
@@ -125,41 +112,17 @@ export default function UserManagement() {
 
       {/* Filters */}
       <Card>
-        <CardHeader>
-          <CardTitle>Filters</CardTitle>
-        </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-4">
-            <div className="relative flex-1 min-w-[200px]">
+            <div className="relative flex-1 max-w-100">
               <IoSearch className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search users..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9"
+                className="pl-9 border-gray-500 focus:ring-2 focus:ring-primary focus:border-primary"
               />
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="All status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All status</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={planFilter} onValueChange={setPlanFilter}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="All plans" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All plans</SelectItem>
-                <SelectItem value="free">Free</SelectItem>
-                <SelectItem value="pro">Pro</SelectItem>
-                <SelectItem value="enterprise">Enterprise</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         </CardContent>
       </Card>
