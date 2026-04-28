@@ -15,6 +15,8 @@ import {
 } from "recharts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router";
+import { ArrowRight } from "lucide-react";
 
 const statsCards = [
   {
@@ -190,8 +192,14 @@ export default function Dashboard() {
 
         {/* Recent Users */}
         <Card>
-          <CardHeader>
+          <CardHeader className="flex items-center justify-between">
             <CardTitle>Recent Users</CardTitle>
+            <Link
+              to="/user-management"
+              className="text-sm font-medium text-[#4DC8FF] hover:underline"
+            >
+              All users <ArrowRight className="inline h-4 w-4" />
+            </Link>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
