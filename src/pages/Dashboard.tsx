@@ -1,6 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FaUsers, FaUserCheck, FaDollarSign } from "react-icons/fa";
-import { MdOutlineQrCodeScanner } from "react-icons/md";
 import {
   LineChart,
   Line,
@@ -17,37 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
-
-const statsCards = [
-  {
-    title: "Total Users",
-    value: "12,543",
-    icon: FaUsers,
-    trend: "+12.5%",
-    trendPositive: true,
-  },
-  {
-    title: "Active Users",
-    value: "8,234",
-    icon: FaUserCheck,
-    trend: "+8.2%",
-    trendPositive: true,
-  },
-  {
-    title: "Total Scans",
-    value: "$45,231",
-    icon: FaDollarSign,
-    trend: "+23.1%",
-    trendPositive: true,
-  },
-  {
-    title: "Subscriptions",
-    value: "1,234",
-    icon: MdOutlineQrCodeScanner,
-    trend: "-2.4%",
-    trendPositive: false,
-  },
-];
+import StatsCards from "@/components/cards/StatsCards";
 
 const activityData = [
   { name: "Mon", users: 400, scans: 240 },
@@ -124,37 +92,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Dashboard</h1>
-
-      {/* Stats Cards */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {statsCards.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.title}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {stat.title}
-                    </p>
-                    <h3 className="text-2xl font-bold mt-2">{stat.value}</h3>
-                    <p
-                      className={`text-xs mt-2 ${
-                        stat.trendPositive ? "text-green-600" : "text-red-600"
-                      }`}
-                    >
-                      {stat.trend} from last month
-                    </p>
-                  </div>
-                  <div className="rounded-full bg-primary/10 p-3">
-                    <Icon className="h-6 w-6 text-primary" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+      <StatsCards />
 
       {/* Charts Row */}
       <div className="grid gap-6 lg:grid-cols-2">
@@ -279,6 +217,7 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
+
       </div>
     </div>
   );
