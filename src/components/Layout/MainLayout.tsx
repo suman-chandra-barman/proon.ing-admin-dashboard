@@ -4,7 +4,7 @@ import Header from "./Header";
 
 export default function MainLayout() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background">
       <Sidebar />
       <Header />
       <main className="ml-64 mt-16 p-6">
