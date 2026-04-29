@@ -3,32 +3,64 @@ import MainLayout from "@/components/Layout/MainLayout";
 import Dashboard from "@/pages/Dashboard";
 import UserManagement from "@/pages/UserManagement";
 import Subscriptions from "@/pages/Subscriptions";
+import Login from "@/pages/Login";
+import ForgotPassword from "@/pages/ForgotPassword";
+import VerifyOtp from "@/pages/VerifyOtp";
+import ResetPassword from "@/pages/ResetPassword";
+import ProtectedRoute from "@/routes/ProtectedRoute";
+import PublicRoute from "@/routes/PublicRoute";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <MainLayout />,
+    element: <PublicRoute />,
     children: [
       {
-        index: true,
-        element: <Dashboard />,
+        path: "/login",
+        element: <Login />,
       },
       {
-        path: "user-management",
-        element: <UserManagement />,
+        path: "/forgot-password",
+        element: <ForgotPassword />,
       },
-      // {
-      //   path: "ai-models",
-      //   element: <AIModels />,
-      // },
       {
-        path: "subscriptions",
-        element: <Subscriptions />,
+        path: "/verify-otp",
+        element: <VerifyOtp />,
       },
-      // {
-      //   path: "analytics",
-      //   element: <Analytics />,
-      // },
+      {
+        path: "/reset-password",
+        element: <ResetPassword />,
+      },
+    ],
+  },
+  {
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "/",
+        element: <MainLayout />,
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+          {
+            path: "user-management",
+            element: <UserManagement />,
+          },
+          // {
+          //   path: "ai-models",
+          //   element: <AIModels />,
+          // },
+          {
+            path: "subscriptions",
+            element: <Subscriptions />,
+          },
+          // {
+          //   path: "analytics",
+          //   element: <Analytics />,
+          // },
+        ],
+      },
     ],
   },
 ]);

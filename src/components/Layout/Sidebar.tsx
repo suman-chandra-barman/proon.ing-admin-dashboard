@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
 import { MdDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
@@ -6,6 +6,8 @@ import { MdSubscriptions } from "react-icons/md";
 import logo from "@/assets/logo.svg";
 import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
+import { useAppDispatch } from "@/redux/hooks";
+import { logout } from "@/redux/features/auth/authSlice";
 
 const navItems = [
   {
@@ -37,6 +39,13 @@ const navItems = [
 
 export default function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login", { replace: true });
+  };
 
   return (
     <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-sidebar-border bg-card shadow-sm">
@@ -78,7 +87,7 @@ export default function Sidebar() {
           })}
         </nav>
 
-        <Button variant="outline" className="m-4">
+        <Button variant="outline" className="m-4" onClick={handleLogout}>
           <LogOut className="h-4 w-4" />
           <span className="ml-2">Sign Out</span>
         </Button>
