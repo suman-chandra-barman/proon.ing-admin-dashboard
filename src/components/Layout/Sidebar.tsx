@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router";
 import { cn } from "@/lib/utils";
 import { MdDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
-import { RiRobot2Fill } from "react-icons/ri";
 import { MdSubscriptions } from "react-icons/md";
 import logo from "@/assets/logo.svg";
 import { Button } from "../ui/button";
@@ -19,11 +18,11 @@ const navItems = [
     href: "/user-management",
     icon: FaUsers,
   },
-  {
-    title: "AI Models",
-    href: "/ai-models",
-    icon: RiRobot2Fill,
-  },
+  // {
+  //   title: "AI Models",
+  //   href: "/ai-models",
+  //   icon: RiRobot2Fill,
+  // },
   {
     title: "Subscriptions",
     href: "/subscriptions",

@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router";
 import MainLayout from "@/components/Layout/MainLayout";
 import Dashboard from "@/pages/Dashboard";
 import UserManagement from "@/pages/UserManagement";
-import AIModels from "@/pages/AIModels";
 import Subscriptions from "@/pages/Subscriptions";
 
 const router = createBrowserRouter([
@@ -18,10 +17,10 @@ const router = createBrowserRouter([
         path: "user-management",
         element: <UserManagement />,
       },
-      {
-        path: "ai-models",
-        element: <AIModels />,
-      },
+      // {
+      //   path: "ai-models",
+      //   element: <AIModels />,
+      // },
       {
         path: "subscriptions",
         element: <Subscriptions />,
