@@ -11,11 +11,8 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router";
-import { ArrowRight } from "lucide-react";
 import StatsCards from "@/components/cards/StatsCards";
+import RecentUsersCard from "@/components/cards/RecentUsersCard";
 
 const activityData = [
   { name: "Mon", users: 400, scans: 240 },
@@ -35,30 +32,6 @@ const scansData = [
   { name: "6pm", scans: 80 },
   { name: "9pm", scans: 45 },
   { name: "12pm", scans: 40 },
-];
-
-const recentUsers = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    email: "sarah.j@example.com",
-    plan: "Pro",
-    joinedAt: "2 hours ago",
-  },
-  {
-    id: 2,
-    name: "Mike Chen",
-    email: "mike.c@example.com",
-    plan: "Enterprise",
-    joinedAt: "5 hours ago",
-  },
-  {
-    id: 3,
-    name: "Emily Davis",
-    email: "emily.d@example.com",
-    plan: "Free",
-    joinedAt: "1 day ago",
-  },
 ];
 
 const recentActivity = [
@@ -129,46 +102,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Recent Users */}
-        <Card>
-          <CardHeader className="flex items-center justify-between">
-            <CardTitle>Recent Users</CardTitle>
-            <Link
-              to="/user-management"
-              className="text-sm font-medium text-[#4DC8FF] hover:underline"
-            >
-              All users <ArrowRight className="inline h-4 w-4" />
-            </Link>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentUsers.map((user) => (
-                <div
-                  key={user.id}
-                  className="flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-3">
-                    <Avatar>
-                      <AvatarImage src={`/avatar-${user.id}.png`} />
-                      <AvatarFallback>{user.name[0]}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-sm font-medium">{user.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {user.email}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <Badge variant="outline">{user.plan}</Badge>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {user.joinedAt}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <RecentUsersCard />
       </div>
 
       {/* Recent Users and Activity */}
@@ -217,7 +151,6 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
-
       </div>
     </div>
   );
