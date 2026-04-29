@@ -1,23 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useGetScansQuery } from "@/redux/features/scans/scansApi";
-
-function RecentActivitySkeleton() {
-  return (
-    <div className="space-y-4">
-      {Array.from({ length: 4 }).map((_, index) => (
-        <div key={`recent-activity-skeleton-${index}`} className="flex gap-3">
-          <Skeleton className="h-8 w-8 rounded-full" />
-          <div className="flex-1 space-y-2">
-            <Skeleton className="h-4 w-56" />
-            <Skeleton className="h-3 w-48" />
-            <Skeleton className="h-3 w-32" />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
+import RecentActivitySkeleton from "../skeletons/RecentActivitySkeleton";
 
 function formatConfidence(value: number | null | undefined) {
   if (typeof value !== "number") {

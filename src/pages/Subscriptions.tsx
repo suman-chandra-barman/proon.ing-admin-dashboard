@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import TableSkeleton from "@/components/skeletons/TableSkeleton";
 import { useGetSubscriptionsQuery } from "@/redux/features/subscriptions/subscriptionsApi";
 
 export default function Subscriptions() {
@@ -58,66 +58,59 @@ export default function Subscriptions() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isLoading || isFetching
-                ? Array.from({ length: itemsPerPage }).map((_, index) => (
-                    <TableRow key={`skeleton-${index}`}>
+              {isLoading || isFetching ? (
+                <TableSkeleton
+                  rows={itemsPerPage}
+                  columns={6}
+                  cellSkeletonClassNames={[
+                    "h-4 w-32",
+                    "h-4 w-40",
+                    "h-4 w-20",
+                    "h-4 w-16",
+                    "h-4 w-16",
+                    "h-4 w-20",
+                  ]}
+                  rowKeyPrefix="subscriptions-skeleton"
+                />
+              ) : (
+                paginatedSubscriptions.map((subscription) => {
+                  const statusLabel =
+                    subscription.status?.toLowerCase() === "active"
+                      ? "Active"
+                      : subscription.status;
+                  return (
+                    <TableRow key={subscription.user}>
+                      <TableCell className="font-medium">
+                        {subscription.user_name}
+                      </TableCell>
+                      <TableCell>{subscription.email || "-"}</TableCell>
                       <TableCell>
-                        <Skeleton className="h-4 w-32" />
+                        <Badge variant="outline">
+                          {subscription.purchased_subscription_plan}
+                        </Badge>
                       </TableCell>
                       <TableCell>
-                        <Skeleton className="h-4 w-40" />
+                        <Badge
+                          variant={
+                            subscription.status?.toLowerCase() === "active"
+                              ? "default"
+                              : subscription.status?.toLowerCase() ===
+                                  "cancelled"
+                                ? "destructive"
+                                : "secondary"
+                          }
+                        >
+                          {statusLabel}
+                        </Badge>
                       </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-4 w-20" />
+                      <TableCell className="font-medium">
+                        ${subscription.amount}
                       </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-4 w-16" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-4 w-16" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-4 w-20" />
-                      </TableCell>
+                      <TableCell>{subscription.billing_period}</TableCell>
                     </TableRow>
-                  ))
-                : paginatedSubscriptions.map((subscription) => {
-                    const statusLabel =
-                      subscription.status?.toLowerCase() === "active"
-                        ? "Active"
-                        : subscription.status;
-                    return (
-                      <TableRow key={subscription.user}>
-                        <TableCell className="font-medium">
-                          {subscription.user_name}
-                        </TableCell>
-                        <TableCell>{subscription.email || "-"}</TableCell>
-                        <TableCell>
-                          <Badge variant="outline">
-                            {subscription.purchased_subscription_plan}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={
-                              subscription.status?.toLowerCase() === "active"
-                                ? "default"
-                                : subscription.status?.toLowerCase() ===
-                                    "cancelled"
-                                  ? "destructive"
-                                  : "secondary"
-                            }
-                          >
-                            {statusLabel}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          ${subscription.amount}
-                        </TableCell>
-                        <TableCell>{subscription.billing_period}</TableCell>
-                      </TableRow>
-                    );
-                  })}
+                  );
+                })
+              )}
               {!isLoading && !isFetching && !paginatedSubscriptions.length && (
                 <TableRow>
                   <TableCell

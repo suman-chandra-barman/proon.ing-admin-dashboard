@@ -12,10 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog } from "@/components/ui/dialog";
-import { Skeleton } from "@/components/ui/skeleton";
 import { FaTrash } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import DeleteUserModal from "@/components/modals/DeleteUserModal";
+import TableSkeleton from "@/components/skeletons/TableSkeleton";
 import {
   useDeleteUserMutation,
   useGetUsersQuery,
@@ -153,71 +153,64 @@ export default function UserManagement() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {isLoading || isFetching
-                ? Array.from({ length: itemsPerPage }).map((_, index) => (
-                    <TableRow key={`skeleton-${index}`}>
+              {isLoading || isFetching ? (
+                <TableSkeleton
+                  rows={itemsPerPage}
+                  columns={6}
+                  cellSkeletonClassNames={[
+                    "h-4 w-32",
+                    "h-4 w-40",
+                    "h-4 w-20",
+                    "h-4 w-16",
+                    "h-4 w-16",
+                    "h-8 w-8",
+                  ]}
+                  rowKeyPrefix="users-skeleton"
+                />
+              ) : (
+                paginatedUsers.map((user) => {
+                  const statusLabel =
+                    user.status?.toLowerCase() === "active"
+                      ? "Active"
+                      : user.status;
+                  return (
+                    <TableRow key={user.id}>
+                      <TableCell className="font-medium">
+                        {user.username}
+                      </TableCell>
+                      <TableCell>{user.email || "-"}</TableCell>
                       <TableCell>
-                        <Skeleton className="h-4 w-32" />
+                        <Badge variant="outline">
+                          {user.subscription_plan}
+                        </Badge>
                       </TableCell>
                       <TableCell>
-                        <Skeleton className="h-4 w-40" />
+                        <Badge
+                          variant={
+                            user.status?.toLowerCase() === "active"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
+                          {statusLabel}
+                        </Badge>
                       </TableCell>
+                      <TableCell>{user.total_scan}</TableCell>
                       <TableCell>
-                        <Skeleton className="h-4 w-20" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-4 w-16" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-4 w-16" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-8 w-8" />
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleDelete(user)}
+                          >
+                            <FaTrash className="h-4 w-4 text-red-600" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
-                  ))
-                : paginatedUsers.map((user) => {
-                    const statusLabel =
-                      user.status?.toLowerCase() === "active"
-                        ? "Active"
-                        : user.status;
-                    return (
-                      <TableRow key={user.id}>
-                        <TableCell className="font-medium">
-                          {user.username}
-                        </TableCell>
-                        <TableCell>{user.email || "-"}</TableCell>
-                        <TableCell>
-                          <Badge variant="outline">
-                            {user.subscription_plan}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={
-                              user.status?.toLowerCase() === "active"
-                                ? "default"
-                                : "secondary"
-                            }
-                          >
-                            {statusLabel}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{user.total_scan}</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => handleDelete(user)}
-                            >
-                              <FaTrash className="h-4 w-4 text-red-600" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                  );
+                })
+              )}
               {!isLoading && !isFetching && !paginatedUsers.length && (
                 <TableRow>
                   <TableCell
