@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import StatsCards from "@/components/cards/StatsCards";
 import RecentUsersCard from "@/components/cards/RecentUsersCard";
+import RecentActivityCard from "@/components/cards/RecentActivityCard";
 
 const activityData = [
   { name: "Mon", users: 400, scans: 240 },
@@ -32,33 +33,6 @@ const scansData = [
   { name: "6pm", scans: 80 },
   { name: "9pm", scans: 45 },
   { name: "12pm", scans: 40 },
-];
-
-const recentActivity = [
-  {
-    id: 1,
-    user: "John Doe",
-    action: "Upgraded to Pro plan",
-    time: "5 minutes ago",
-  },
-  {
-    id: 2,
-    user: "Jane Smith",
-    action: "Completed AI scan",
-    time: "15 minutes ago",
-  },
-  {
-    id: 3,
-    user: "Robert Brown",
-    action: "Registered new account",
-    time: "1 hour ago",
-  },
-  {
-    id: 4,
-    user: "Alice Green",
-    action: "Downloaded report",
-    time: "2 hours ago",
-  },
 ];
 
 export default function Dashboard() {
@@ -126,31 +100,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Recent Activity */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentActivity.map((activity) => (
-                <div key={activity.id} className="flex items-start gap-3">
-                  <div className="rounded-full bg-primary/10 p-2">
-                    <div className="h-2 w-2 rounded-full bg-primary"></div>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm">
-                      <span className="font-medium">{activity.user}</span>{" "}
-                      {activity.action}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {activity.time}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <RecentActivityCard />
       </div>
     </div>
   );
