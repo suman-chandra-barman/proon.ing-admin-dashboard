@@ -6,31 +6,21 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  plan: string;
-  status: string;
-  scansUsed: number;
-  scansLimit: number;
-}
+import type { AdminUser } from "@/redux/features/users/usersApi";
 
 interface DeleteUserModalProps {
-  user: User;
+  user: AdminUser;
   onClose: () => void;
+  onConfirm: () => void;
+  isDeleting?: boolean;
 }
 
 export default function DeleteUserModal({
   user,
   onClose,
+  onConfirm,
+  isDeleting = false,
 }: DeleteUserModalProps) {
-  const handleDelete = () => {
-    console.log("Deleting user:", user.id);
-    onClose();
-  };
-
   return (
     <DialogContent className="sm:max-w-md">
       <DialogHeader>
@@ -42,17 +32,26 @@ export default function DeleteUserModal({
       </DialogHeader>
       <div className="py-4">
         <div className="rounded-lg border p-4 space-y-1">
-          <p className="text-sm font-medium">{user.name}</p>
-          <p className="text-sm text-muted-foreground">{user.email}</p>
-          <p className="text-sm text-muted-foreground">Plan: {user.plan}</p>
+          <p className="text-sm font-medium">{user.username}</p>
+          <p className="text-sm text-muted-foreground">
+            {user.email || "No email"}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Plan: {user.subscription_plan}
+          </p>
         </div>
       </div>
       <DialogFooter>
         <Button type="button" variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button type="button" variant="destructive" onClick={handleDelete}>
-          Delete User
+        <Button
+          type="button"
+          variant="destructive"
+          onClick={onConfirm}
+          disabled={isDeleting}
+        >
+          {isDeleting ? "Deleting..." : "Delete User"}
         </Button>
       </DialogFooter>
     </DialogContent>
