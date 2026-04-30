@@ -97,6 +97,25 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
+    // UPDATE PASSWORD (logged-in user)
+    updatePassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/reset-password/",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    // UPDATE PROFILE
+    updateProfile: builder.mutation({
+      query: (formData) => ({
+        url: "/auth/profile/",
+        method: "PATCH",
+        body: formData,
+      }),
+      invalidatesTags: ["Profile"],
+    }),
+
     // CHANGE PASSWORD (for logged-in user)
     changePassword: builder.mutation({
       query: (data) => ({
@@ -124,7 +143,7 @@ const authApi = baseApi.injectEndpoints({
           console.error("Get user info failed:", err);
         }
       },
-      providesTags: [],
+      providesTags: ["Profile"],
     }),
   }),
 });
@@ -137,6 +156,8 @@ export const {
   useForgotPasswordMutation,
   useVerifyOtpMutation,
   useResetPasswordMutation,
+  useUpdatePasswordMutation,
+  useUpdateProfileMutation,
   useChangePasswordMutation,
   useGetMeQuery,
 } = authApi;
