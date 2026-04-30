@@ -52,7 +52,7 @@ export default function ProfileDropdown() {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+          <Button variant="ghost" className="relative h-10 w-10 rounded-full hover:cursor-pointer">
             <Avatar>
               <AvatarImage src={profileImage} alt={resolvedName} />
               <AvatarFallback className="bg-gray-500 text-white">
